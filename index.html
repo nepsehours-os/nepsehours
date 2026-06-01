@@ -1,0 +1,1089 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>NEPSE HOURS — Nepal's Live Financial News Portal</title>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--red:#c0392b;--red-dark:#96281b;--red-dim:rgba(192,57,43,.08);--navy:#0d1b2a;--navy2:#1b2d42;--blue:#1a6eb5;--green:#1a8c4e;--orange:#d35400;--bg:#f5f4f0;--bg2:#fff;--border:#ddd9d0;--border2:#e8e4dc;--text:#1a1a1a;--text2:#444;--muted:#777;--light:#f9f8f5;--gold:#c9a84c}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'IBM Plex Sans',sans-serif;font-size:14px;line-height:1.6}
+a{text-decoration:none;color:inherit}
+
+/* TOPBAR */
+.topbar{background:var(--navy);color:#aab;padding:6px 0;font-size:11px;letter-spacing:.04em;position:relative;z-index:400}
+.topbar-inner{max-width:1300px;margin:0 auto;padding:0 1.5rem;display:flex;justify-content:space-between;align-items:center;gap:1rem;flex-wrap:wrap}
+.topbar-left{display:flex;gap:1.5rem;align-items:center}
+.topbar-date{color:#ccd}
+.topbar-nepali{color:#88aacc}
+.topbar-right{display:flex;gap:1.5rem;align-items:center}
+.topbar-right a{color:#aab;transition:color .2s}.topbar-right a:hover{color:#fff}
+.market-status{display:flex;align-items:center;gap:6px;font-weight:600}
+.status-dot{width:7px;height:7px;border-radius:50%;animation:pulse 2s infinite}
+.status-open{background:#27ae60}.status-closed{background:#e74c3c}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* HEADER */
+header{background:#fff;border-bottom:3px solid var(--red);position:sticky;top:0;z-index:300;box-shadow:0 2px 12px rgba(0,0,0,.08)}
+.header-inner{max-width:1300px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;gap:1rem;height:64px}
+.logo{display:flex;align-items:baseline;gap:4px;cursor:pointer}
+.logo-main{font-family:'Libre Baskerville',serif;font-size:1.7rem;font-weight:700;color:var(--red);letter-spacing:-.02em}
+.logo-sub{font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);align-self:center;margin-left:4px}
+.header-indices{display:flex;gap:1.2rem;align-items:center}
+.idx-chip{text-align:center;padding:4px 12px;border-left:1px solid var(--border)}
+.idx-chip:first-child{border:none}
+.idx-name{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);display:block}
+.idx-val{font-family:'IBM Plex Mono',monospace;font-size:.95rem;font-weight:700;color:var(--text)}
+.idx-chg{font-size:11px;font-weight:600}
+.up{color:var(--green)}.down{color:var(--red)}
+.header-actions{display:flex;gap:8px;align-items:center}
+.btn-search{background:var(--light);border:1px solid var(--border);padding:8px 14px;cursor:pointer;font-size:13px;display:flex;align-items:center;gap:6px;color:var(--muted);transition:all .2s}
+.btn-search:hover{background:var(--border);color:var(--text)}
+.btn-live{background:var(--red);color:#fff;border:none;padding:8px 14px;cursor:pointer;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;display:flex;align-items:center;gap:6px}
+.live-dot-red{width:6px;height:6px;border-radius:50%;background:#fff;animation:pulse 1.2s infinite}
+.hamburger{display:none;background:none;border:none;cursor:pointer;padding:6px;flex-direction:column;gap:5px}
+.hamburger span{display:block;width:22px;height:2px;background:var(--text);transition:all .3s}
+
+/* MEGA NAV */
+nav{background:var(--navy);position:relative;z-index:200}
+.nav-inner{max-width:1300px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:stretch}
+.nav-item{position:relative}
+.nav-link{color:#ccd;font-size:11px;font-weight:600;letter-spacing:.06em;padding:12px 14px;display:block;white-space:nowrap;transition:background .2s,color .2s;text-transform:uppercase;cursor:pointer;user-select:none}
+.nav-link:hover,.nav-link.active{background:var(--red);color:#fff}
+.nav-link .arrow{font-size:8px;margin-left:4px;opacity:.6}
+.dropdown{display:none;position:absolute;top:100%;left:0;background:#fff;min-width:200px;box-shadow:0 8px 32px rgba(0,0,0,.18);z-index:500;border-top:2px solid var(--red)}
+.nav-item:hover .dropdown{display:block}
+.dropdown a{display:block;padding:10px 16px;font-size:12px;color:var(--text2);border-bottom:1px solid var(--border2);transition:background .15s}
+.dropdown a:last-child{border:none}
+.dropdown a:hover{background:var(--light);color:var(--red)}
+.mobile-menu{display:none;background:var(--navy2);flex-direction:column}
+.mobile-menu.open{display:flex}
+.mobile-menu .nav-link{padding:12px 1.5rem;border-bottom:1px solid rgba(255,255,255,.06)}
+
+/* BREAKING */
+.breaking{background:var(--red);color:#fff;padding:7px 0;overflow:hidden}
+.breaking-inner{max-width:1300px;margin:0 auto;padding:0 1.5rem;display:flex;align-items:center;gap:0}
+.breaking-label{background:#fff;color:var(--red);font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;padding:3px 10px;white-space:nowrap;flex-shrink:0}
+.breaking-track{overflow:hidden;flex:1;margin-left:1rem}
+.breaking-scroll{display:flex;gap:3rem;animation:marquee 50s linear infinite;white-space:nowrap}
+@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+.breaking-sep{color:rgba(255,255,255,.4);margin:0 .5rem}
+
+/* LAYOUT */
+.page-container{max-width:1300px;margin:0 auto;padding:1.5rem;display:grid;grid-template-columns:220px 1fr 220px;gap:1.5rem}
+
+/* SECTION HEADS */
+.sec-head{border-bottom:2px solid var(--red);padding-bottom:6px;margin-bottom:12px;display:flex;justify-content:space-between;align-items:baseline}
+.sec-title{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:700;color:var(--navy)}
+.sec-more{font-size:10px;color:var(--red);letter-spacing:.05em;text-transform:uppercase;font-weight:600;cursor:pointer}
+
+/* BOX */
+.box{background:#fff;border:1px solid var(--border);margin-bottom:1.2rem}
+.box-pad{padding:1rem}
+
+/* INDEX HERO */
+.index-hero{background:var(--navy);color:#fff;padding:1.2rem;margin-bottom:1.2rem}
+.idx-hero-name{font-size:10px;letter-spacing:.15em;text-transform:uppercase;color:#88aacc;margin-bottom:4px}
+.idx-hero-val{font-family:'IBM Plex Mono',monospace;font-size:2rem;font-weight:700;line-height:1;margin-bottom:4px}
+.idx-hero-chg{font-size:13px;font-weight:600;display:flex;gap:12px}
+.idx-mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.idx-mini{background:rgba(255,255,255,.06);padding:8px}
+.idx-mini-label{font-size:9px;color:#88aacc;text-transform:uppercase;letter-spacing:.1em}
+.idx-mini-val{font-family:'IBM Plex Mono',monospace;font-size:.85rem;font-weight:600;color:#e0e0ff}
+
+/* SECTOR */
+.sector-row{display:flex;justify-content:space-between;align-items:center;padding:7px 0;border-bottom:1px solid var(--border2);font-size:12px}
+.sector-row:last-child{border:none}
+.sector-name{color:var(--text2);font-weight:500}
+.sector-val{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px}
+
+/* TABS */
+.tab-bar{display:flex;border-bottom:1px solid var(--border)}
+.tab-btn{flex:1;padding:8px;font-size:11px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;background:var(--light);border:none;cursor:pointer;color:var(--muted);transition:all .2s;border-bottom:2px solid transparent}
+.tab-btn.active.gain{color:var(--green);border-bottom-color:var(--green);background:#fff}
+.tab-btn.active.lose{color:var(--red);border-bottom-color:var(--red);background:#fff}
+.tab-btn.active.vol{color:var(--blue);border-bottom-color:var(--blue);background:#fff}
+.tab-content{display:none}.tab-content.active{display:block}
+.stock-row{display:grid;grid-template-columns:1fr auto auto;gap:6px;align-items:center;padding:7px 12px;border-bottom:1px solid var(--border2);font-size:12px;cursor:pointer;transition:background .15s}
+.stock-row:hover{background:var(--light)}
+.stock-row:last-child{border:none}
+.stock-sym{font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.stock-ltp{font-family:'IBM Plex Mono',monospace;font-weight:600;font-size:12px}
+.stock-pct{font-size:10px;font-weight:700;padding:2px 5px;border-radius:2px}
+.pct-up{background:rgba(26,140,78,.1);color:var(--green)}
+.pct-down{background:rgba(192,57,43,.1);color:var(--red)}
+
+/* STAT GRID */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border)}
+.stat-cell{background:#fff;padding:10px 12px}
+.stat-label{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:3px}
+.stat-val{font-family:'IBM Plex Mono',monospace;font-size:.95rem;font-weight:700;color:var(--navy)}
+.stat-val.up{color:var(--green)}.stat-val.down{color:var(--red)}
+
+/* NEWS */
+.news-featured-block{margin-bottom:1.2rem;background:#fff;border:1px solid var(--border)}
+.feat-img{width:100%;height:200px;background:linear-gradient(135deg,var(--navy) 0%,#1a3a5c 50%,var(--red-dark) 100%);position:relative;overflow:hidden;display:flex;align-items:flex-end}
+.feat-img-bg{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:5rem;opacity:.08}
+.feat-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,transparent 60%)}
+.feat-content{position:relative;z-index:1;padding:1rem}
+.feat-tag{background:var(--red);color:#fff;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;padding:3px 8px;display:inline-block;margin-bottom:6px}
+.feat-title{font-family:'Libre Baskerville',serif;font-size:1.05rem;font-weight:700;color:#fff;line-height:1.3;margin-bottom:4px}
+.feat-meta{font-size:10px;color:rgba(255,255,255,.55)}
+.news-2col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:1.2rem}
+.news-card{background:#fff;padding:1rem;cursor:pointer;transition:background .2s}
+.news-card:hover{background:var(--light)}
+.news-tag{font-size:9px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--red);margin-bottom:5px}
+.news-title{font-family:'Libre Baskerville',serif;font-size:.8rem;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:4px}
+.news-meta{font-size:10px;color:var(--muted)}
+.news-list{background:#fff;border:1px solid var(--border);margin-bottom:1.2rem}
+.news-list-item{display:flex;gap:10px;padding:10px 1rem;border-bottom:1px solid var(--border2);cursor:pointer;transition:background .15s}
+.news-list-item:hover{background:var(--light)}
+.news-list-item:last-child{border:none}
+.n-num{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:var(--border);line-height:1;flex-shrink:0;width:26px}
+.n-title{font-size:12px;font-weight:600;color:var(--text);line-height:1.4;margin-bottom:2px}
+.n-meta{font-size:10px;color:var(--muted)}
+
+/* LIVE TABLE */
+.live-section{background:#fff;border:1px solid var(--border);margin-bottom:1.5rem}
+.live-head{background:var(--navy);color:#fff;padding:.7rem 1rem;display:flex;justify-content:space-between;align-items:center}
+.live-head-title{font-size:12px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;display:flex;align-items:center;gap:8px}
+.live-dot{width:6px;height:6px;border-radius:50%;background:#27ae60;animation:pulse 1.5s infinite}
+.live-time{font-size:10px;color:#88aacc}
+table{width:100%;border-collapse:collapse}
+thead th{background:var(--light);font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);padding:7px 10px;text-align:left;border-bottom:2px solid var(--border)}
+thead th.r{text-align:right}
+tbody tr{border-bottom:1px solid var(--border2);transition:background .15s;cursor:pointer}
+tbody tr:last-child{border:none}
+tbody tr:hover{background:var(--light)}
+tbody tr.flash-up{animation:flashGreen .6s}
+tbody tr.flash-down{animation:flashRed .6s}
+@keyframes flashGreen{0%,100%{background:transparent}50%{background:rgba(26,140,78,.12)}}
+@keyframes flashRed{0%,100%{background:transparent}50%{background:rgba(192,57,43,.1)}}
+td{padding:7px 10px;font-size:12px}
+td.sym{font-family:'IBM Plex Mono',monospace;font-weight:700;color:var(--navy);font-size:11px}
+td.r{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px}
+td.cu{text-align:right;color:var(--green);font-weight:600;font-family:'IBM Plex Mono',monospace}
+td.cd{text-align:right;color:var(--red);font-weight:600;font-family:'IBM Plex Mono',monospace}
+td .stag{font-size:9px;padding:1px 5px;background:var(--light);color:var(--muted);border-radius:2px}
+
+/* IPO */
+.ipo-card{padding:10px 12px;border-bottom:1px solid var(--border2)}
+.ipo-card:last-child{border:none}
+.ipo-name{font-weight:600;font-size:12px;color:var(--navy);margin-bottom:3px}
+.ipo-meta{font-size:11px;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap}
+.badge{font-size:9px;font-weight:700;padding:2px 7px;border-radius:2px;letter-spacing:.08em;text-transform:uppercase}
+.badge-open{background:rgba(26,140,78,.12);color:var(--green)}
+.badge-closed{background:rgba(192,57,43,.1);color:var(--red)}
+.badge-upcoming{background:rgba(26,110,181,.1);color:var(--blue)}
+.badge-allotted{background:rgba(201,168,76,.12);color:var(--gold)}
+
+/* ANNOUNCEMENTS */
+.ann-row{padding:8px 12px;border-bottom:1px solid var(--border2);font-size:11px}
+.ann-row:last-child{border:none}
+.ann-sym{font-weight:700;color:var(--navy);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.atype{font-size:9px;font-weight:700;padding:2px 6px;border-radius:2px;text-transform:uppercase;letter-spacing:.08em;margin-left:6px}
+.at-bonus{background:rgba(211,84,0,.1);color:var(--orange)}
+.at-div{background:rgba(26,110,181,.1);color:var(--blue)}
+.at-agm{background:rgba(26,140,78,.1);color:var(--green)}
+.at-right{background:rgba(142,68,173,.1);color:#8e44ad}
+.ann-detail{color:var(--muted);margin-top:2px}
+
+/* ═══ DIVIDEND CALCULATOR ═══ */
+.calc-section{max-width:1300px;margin:0 auto;padding:0 1.5rem 2rem}
+.calc-section-head{background:var(--navy);color:#fff;padding:1rem 1.5rem;display:flex;justify-content:space-between;align-items:center;margin-bottom:0;border-bottom:3px solid var(--red)}
+.calc-section-title{font-family:'Libre Baskerville',serif;font-size:1.2rem;font-weight:700}
+.calc-section-sub{font-size:11px;color:#88aacc;margin-top:2px}
+.calc-tabs-bar{display:flex;background:var(--navy2);border-bottom:none}
+.calc-tab{flex:1;padding:12px;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;background:transparent;border:none;color:#88aacc;cursor:pointer;transition:all .2s;border-bottom:3px solid transparent}
+.calc-tab.active{color:#fff;border-bottom-color:var(--red);background:rgba(255,255,255,.04)}
+.calc-body{display:none;background:#fff;border:1px solid var(--border);padding:1.5rem;border-top:none}
+.calc-body.active{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+.calc-form{}
+.form-group{margin-bottom:1.2rem}
+label{display:block;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.form-input{width:100%;padding:10px 14px;border:1px solid var(--border);background:var(--light);font-family:'IBM Plex Mono',monospace;font-size:1rem;color:var(--text);outline:none;transition:border-color .2s;-moz-appearance:textfield}
+.form-input:focus{border-color:var(--navy);background:#fff}
+.form-input::-webkit-outer-spin-button,.form-input::-webkit-inner-spin-button{-webkit-appearance:none}
+.form-select{width:100%;padding:10px 14px;border:1px solid var(--border);background:var(--light);font-family:'IBM Plex Sans',sans-serif;font-size:13px;color:var(--text);outline:none;cursor:pointer;transition:border-color .2s}
+.form-select:focus{border-color:var(--navy)}
+.calc-btn{width:100%;padding:12px;background:var(--red);color:#fff;border:none;font-family:'IBM Plex Sans',sans-serif;font-size:13px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;transition:background .2s;margin-top:.5rem}
+.calc-btn:hover{background:var(--red-dark)}
+.calc-results{background:var(--light);border:1px solid var(--border);padding:1.5rem}
+.calc-results-title{font-family:'Libre Baskerville',serif;font-size:.9rem;font-weight:700;color:var(--navy);margin-bottom:1rem;padding-bottom:.6rem;border-bottom:2px solid var(--red)}
+.result-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid var(--border2)}
+.result-row:last-child{border:none}
+.result-label{font-size:12px;color:var(--text2)}
+.result-val{font-family:'IBM Plex Mono',monospace;font-size:1rem;font-weight:700;color:var(--navy)}
+.result-row.highlight{background:var(--red-dim);padding:10px 12px;margin:8px -12px;border:1px solid rgba(192,57,43,.2)}
+.result-row.highlight .result-label{color:var(--red);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:.05em}
+.result-row.highlight .result-val{color:var(--red);font-size:1.2rem}
+.calc-note{font-size:11px;color:var(--muted);margin-top:1rem;padding:10px;background:rgba(26,110,181,.06);border-left:3px solid var(--blue);line-height:1.7}
+
+/* FOOTER */
+.footer-brand-name{font-family:'Libre Baskerville',serif;font-size:1.4rem;font-weight:700;color:#fff;margin-bottom:.5rem}
+.footer-desc{font-size:12px;color:#88aacc;line-height:1.7}
+.footer-col-title{font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#ccd;margin-bottom:.75rem}
+.footer-links{display:flex;flex-direction:column;gap:6px}
+.footer-links a{font-size:12px;color:#88aacc;transition:color .2s}
+.footer-links a:hover{color:#fff}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:1rem;display:flex;justify-content:space-between;font-size:11px;flex-wrap:wrap;gap:.5rem;color:#667}
+.footer-bottom span{color:#88aacc}
+
+/* RESPONSIVE */
+@media(max-width:1100px){.page-container{grid-template-columns:1fr}.header-indices{display:none}.hamburger{display:flex}}
+@media(max-width:700px){.news-2col{grid-template-columns:1fr}.calc-body.active{grid-template-columns:1fr}.footer-grid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="topbar-left">
+      <span class="topbar-date" id="topDate"></span>
+      <span class="topbar-nepali" id="topNepali">२०८३ जेठ १७</span>
+      <span class="topbar-date" id="topTime"></span>
+    </div>
+    <div class="topbar-right">
+      <div class="market-status"><div class="status-dot" id="statusDot"></div><span id="statusText">--</span></div>
+      <a href="https://sebon.gov.np" target="_blank">SEBON</a>
+      <a href="https://nrb.org.np" target="_blank">NRB</a>
+      <a href="https://cdsc.com.np" target="_blank">CDSC</a>
+      <a href="https://tms.nepsebroker.com" target="_blank">TMS Login</a>
+    </div>
+  </div>
+</div>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <div class="logo" onclick="scrollTo(0,0)">
+      <span class="logo-main">NEPSE HOURS</span>
+      <span class="logo-sub">Nepal's Financial Portal</span>
+    </div>
+    <div class="header-indices" id="headerIndices">
+      <div class="idx-chip">
+        <span class="idx-name">NEPSE Index</span>
+        <span class="idx-val" id="h-nepse">2,782.10</span>
+        <span class="idx-chg up" id="h-nepse-chg">▲ +5.00 (+0.18%)</span>
+      </div>
+      <div class="idx-chip">
+        <span class="idx-name">Sensitive</span>
+        <span class="idx-val" id="h-sensitive">484.22</span>
+        <span class="idx-chg up" id="h-sensitive-chg">▲ +1.12</span>
+      </div>
+      <div class="idx-chip">
+        <span class="idx-name">Float</span>
+        <span class="idx-val" id="h-float">187.64</span>
+        <span class="idx-chg down" id="h-float-chg">▼ -0.44</span>
+      </div>
+      <div class="idx-chip">
+        <span class="idx-name">Turnover (NPR)</span>
+        <span class="idx-val">2.4B</span>
+        <span class="idx-chg" style="color:var(--muted)">Today</span>
+      </div>
+    </div>
+    <div class="header-actions">
+      <button class="btn-search" onclick="openSearch()">🔍 Search Stock</button>
+      <button class="btn-live"><div class="live-dot-red"></div>LIVE</button>
+      <button class="hamburger" id="hamburgerBtn" onclick="toggleMobile()">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- MEGA NAV -->
+<nav>
+  <div class="nav-inner" id="desktopNav">
+    <div class="nav-item"><a class="nav-link active" href="#">Home</a></div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">Market <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Live Trading</a>
+        <a href="#">Live Floorsheet</a>
+        <a href="#">NEPSE Index</a>
+        <a href="#">Sector Indices</a>
+        <a href="#">Top Gainers</a>
+        <a href="#">Top Losers</a>
+        <a href="#">52-Week High/Low</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">News <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Today's News</a>
+        <a href="#">Market Analysis</a>
+        <a href="#">NRB Policy</a>
+        <a href="#">SEBON Updates</a>
+        <a href="#">Interview</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">IPO <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Open IPO</a>
+        <a href="#">Upcoming IPO</a>
+        <a href="#">IPO Result</a>
+        <a href="#">IPO Allotment</a>
+        <a href="#">Mutual Fund IPO</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">Companies <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Commercial Banks</a>
+        <a href="#">Development Banks</a>
+        <a href="#">Finance</a>
+        <a href="#">Hydropower</a>
+        <a href="#">Insurance</a>
+        <a href="#">Microfinance</a>
+        <a href="#">Manufacturing</a>
+        <a href="#">Hotels & Tourism</a>
+      </div>
+    </div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">Announcements <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Dividend</a>
+        <a href="#">Bonus Shares</a>
+        <a href="#">Right Shares</a>
+        <a href="#">AGM Schedule</a>
+        <a href="#">Book Close</a>
+        <a href="#">New Listings</a>
+      </div>
+    </div>
+    <div class="nav-item"><a class="nav-link" href="#calc-section">💰 Div. Calculator</a></div>
+    <div class="nav-item">
+      <a class="nav-link" href="#">Tools <span class="arrow">▾</span></a>
+      <div class="dropdown">
+        <a href="#">Portfolio Tracker</a>
+        <a href="#">Stock Screener</a>
+        <a href="#">Dividend Calendar</a>
+        <a href="#">Broker Directory</a>
+        <a href="#">EMI Calculator</a>
+      </div>
+    </div>
+    
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a class="nav-link" href="#">Home</a>
+    <a class="nav-link" href="#">Market / Live Trading</a>
+    <a class="nav-link" href="#">News</a>
+    <a class="nav-link" href="#">IPO</a>
+    <a class="nav-link" href="#">Companies</a>
+    <a class="nav-link" href="#">Announcements</a>
+    <a class="nav-link" href="#calc-section">💰 Dividend Calculator</a>
+    <a class="nav-link" href="#">Portfolio Tracker</a>
+    
+  </div>
+</nav>
+
+<!-- BREAKING NEWS -->
+<div class="breaking">
+  <div class="breaking-inner">
+    <div class="breaking-label">🔴 Breaking</div>
+    <div class="breaking-track">
+      <div class="breaking-scroll">
+        <span class="breaking-item">NEPSE closes at 2,782.10 — banking sector leads broad recovery <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">Kalanga Hydro IPO oversubscribed 9.80× — allotment Jestha 22 <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">NABIL Bank proposes 15% cash dividend FY 2082/83 <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">NRB holds policy rate at 5.5% — credit growth target 12.5% <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">SEBON caps margin lending LTV at 65% for volatile scrips <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">Upper Tamakoshi posts record Q3 revenue Rs. 1.2 billion <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">CIB requests SEBON freeze shares of 56 persons under Securities Act probe <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">NEPSE closes at 2,782.10 — banking sector leads broad recovery <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">Kalanga Hydro IPO oversubscribed 9.80× — allotment Jestha 22 <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">NABIL Bank proposes 15% cash dividend FY 2082/83 <span class="breaking-sep">|</span></span>
+        <span class="breaking-item">NRB holds policy rate at 5.5% — credit growth target 12.5% <span class="breaking-sep">|</span></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3-COLUMN LAYOUT -->
+<div class="page-container">
+
+  <!-- LEFT -->
+  <aside>
+    <div class="index-hero">
+      <div class="idx-hero-name">NEPSE Index</div>
+      <div class="idx-hero-val" id="heroNepse">2,782.10</div>
+      <div class="idx-hero-chg"><span class="up" id="heroChg">▲ +5.00</span><span class="up" id="heroPct">(+0.18%)</span></div>
+      <div class="idx-mini-grid">
+        <div class="idx-mini"><div class="idx-mini-label">Day Low</div><div class="idx-mini-val">2,762.3</div></div>
+        <div class="idx-mini"><div class="idx-mini-label">Day High</div><div class="idx-mini-val">2,789.6</div></div>
+        <div class="idx-mini"><div class="idx-mini-label">52W Low</div><div class="idx-mini-val">1,988.4</div></div>
+        <div class="idx-mini"><div class="idx-mini-label">52W High</div><div class="idx-mini-val">3,124.8</div></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-pad">
+        <div class="sec-head"><span class="sec-title">Sector Indices</span><span class="sec-more">All →</span></div>
+        <div class="sector-row"><span class="sector-name">Commercial Banks</span><span class="sector-val up">1,482.3 ▲</span></div>
+        <div class="sector-row"><span class="sector-name">Development Banks</span><span class="sector-val down">1,122.7 ▼</span></div>
+        <div class="sector-row"><span class="sector-name">Finance</span><span class="sector-val down">642.1 ▼</span></div>
+        <div class="sector-row"><span class="sector-name">Hydropower</span><span class="sector-val up">2,241.4 ▲</span></div>
+        <div class="sector-row"><span class="sector-name">Insurance</span><span class="sector-val up">7,842.6 ▲</span></div>
+        <div class="sector-row"><span class="sector-name">Microfinance</span><span class="sector-val up">1,876.3 ▲</span></div>
+        <div class="sector-row"><span class="sector-name">Manufacturing</span><span class="sector-val down">3,124.8 ▼</span></div>
+        <div class="sector-row"><span class="sector-name">Hotels</span><span class="sector-val up">1,987.2 ▲</span></div>
+        <div class="sector-row"><span class="sector-name">Mutual Fund</span><span class="sector-val up">10.42 ▲</span></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-pad" style="padding-bottom:0">
+        <div class="sec-head"><span class="sec-title">Movers</span></div>
+      </div>
+      <div class="tab-bar">
+        <button class="tab-btn gain active" onclick="switchTab(this,'gain','gainTab')">▲ Gain</button>
+        <button class="tab-btn lose" onclick="switchTab(this,'lose','loseTab')">▼ Loss</button>
+        <button class="tab-btn vol" onclick="switchTab(this,'vol','volTab')">⚡ Vol</button>
+      </div>
+      <div class="tab-content active" id="gainTab">
+        <div class="stock-row"><span class="stock-sym">BUNGAL</span><span class="stock-ltp">412</span><span class="stock-pct pct-up">+13.37%</span></div>
+        <div class="stock-row"><span class="stock-sym">UPPER</span><span class="stock-ltp" id="g-UPPER">340</span><span class="stock-pct pct-up">+8.24%</span></div>
+        <div class="stock-row"><span class="stock-sym">CHCL</span><span class="stock-ltp" id="g-CHCL">889</span><span class="stock-pct pct-up">+6.56%</span></div>
+        <div class="stock-row"><span class="stock-sym">NABIL</span><span class="stock-ltp" id="g-NABIL">1,240</span><span class="stock-pct pct-up">+4.82%</span></div>
+        <div class="stock-row"><span class="stock-sym">CREST</span><span class="stock-ltp">287</span><span class="stock-pct pct-up">+4.17%</span></div>
+        <div class="stock-row"><span class="stock-sym">SICL</span><span class="stock-ltp" id="g-SICL">520</span><span class="stock-pct pct-up">+3.92%</span></div>
+        <div class="stock-row"><span class="stock-sym">AKJCL</span><span class="stock-ltp">164</span><span class="stock-pct pct-up">+3.08%</span></div>
+        <div class="stock-row"><span class="stock-sym">BNL</span><span class="stock-ltp" id="g-BNL">193</span><span class="stock-pct pct-up">+2.83%</span></div>
+      </div>
+      <div class="tab-content" id="loseTab">
+        <div class="stock-row"><span class="stock-sym">NIMB</span><span class="stock-ltp" id="l-NIMB">267</span><span class="stock-pct pct-down">-4.10%</span></div>
+        <div class="stock-row"><span class="stock-sym">API</span><span class="stock-ltp">388</span><span class="stock-pct pct-down">-3.82%</span></div>
+        <div class="stock-row"><span class="stock-sym">GBBL</span><span class="stock-ltp">1,642</span><span class="stock-pct pct-down">-3.20%</span></div>
+        <div class="stock-row"><span class="stock-sym">MLBBL</span><span class="stock-ltp">1,188</span><span class="stock-pct pct-down">-2.91%</span></div>
+        <div class="stock-row"><span class="stock-sym">PRVU</span><span class="stock-ltp">312</span><span class="stock-pct pct-down">-2.41%</span></div>
+        <div class="stock-row"><span class="stock-sym">HIDCL</span><span class="stock-ltp">196</span><span class="stock-pct pct-down">-2.10%</span></div>
+        <div class="stock-row"><span class="stock-sym">MNBBL</span><span class="stock-ltp">924</span><span class="stock-pct pct-down">-1.82%</span></div>
+        <div class="stock-row"><span class="stock-sym">SAPDBL</span><span class="stock-ltp">644</span><span class="stock-pct pct-down">-1.53%</span></div>
+      </div>
+      <div class="tab-content" id="volTab">
+        <div class="stock-row"><span class="stock-sym">AKJCL</span><span class="stock-ltp">164</span><span class="stock-pct pct-up">1.6M</span></div>
+        <div class="stock-row"><span class="stock-sym">HIDCL</span><span class="stock-ltp">196</span><span class="stock-pct pct-down">884K</span></div>
+        <div class="stock-row"><span class="stock-sym">NIMB</span><span class="stock-ltp">267</span><span class="stock-pct pct-down">921K</span></div>
+        <div class="stock-row"><span class="stock-sym">UPPER</span><span class="stock-ltp">340</span><span class="stock-pct pct-up">114K</span></div>
+        <div class="stock-row"><span class="stock-sym">NABIL</span><span class="stock-ltp">1,240</span><span class="stock-pct pct-up">48K</span></div>
+        <div class="stock-row"><span class="stock-sym">SICL</span><span class="stock-ltp">520</span><span class="stock-pct pct-up">22K</span></div>
+        <div class="stock-row"><span class="stock-sym">BNL</span><span class="stock-ltp">193</span><span class="stock-pct pct-up">67K</span></div>
+        <div class="stock-row"><span class="stock-sym">CHCL</span><span class="stock-ltp">889</span><span class="stock-pct pct-up">34K</span></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-pad">
+        <div class="sec-head"><span class="sec-title">NRB Key Rates</span></div>
+        <div class="sector-row"><span class="sector-name">Policy Rate</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">5.50%</span></div>
+        <div class="sector-row"><span class="sector-name">Bank Rate</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">7.00%</span></div>
+        <div class="sector-row"><span class="sector-name">CRR</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">4.00%</span></div>
+        <div class="sector-row"><span class="sector-name">SLR (Banks)</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">12.00%</span></div>
+        <div class="sector-row"><span class="sector-name">Base Rate Avg</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">9.24%</span></div>
+        <div class="sector-row"><span class="sector-name">Interbank Rate</span><span class="sector-val" style="color:var(--navy);font-family:'IBM Plex Mono',monospace">4.54%</span></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="stat-grid">
+        <div class="stat-cell"><div class="stat-label">Turnover</div><div class="stat-val">2.4B</div></div>
+        <div class="stat-cell"><div class="stat-label">Volume</div><div class="stat-val">8.2M</div></div>
+        <div class="stat-cell"><div class="stat-label">Gainers</div><div class="stat-val up">142</div></div>
+        <div class="stat-cell"><div class="stat-label">Losers</div><div class="stat-val down">87</div></div>
+        <div class="stat-cell"><div class="stat-label">Unchanged</div><div class="stat-val">34</div></div>
+        <div class="stat-cell"><div class="stat-label">Scrips</div><div class="stat-val">263</div></div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- CENTER -->
+  <main>
+    <div class="news-featured-block">
+      <div class="feat-img">
+        <div class="feat-img-bg">📊</div>
+        <div class="feat-overlay"></div>
+        <div class="feat-content">
+          <div class="feat-tag">Market Analysis</div>
+          <div class="feat-title">NEPSE Rallies 5 Points as Banking Leads Recovery — Analysts Eye 2,850 Resistance Level</div>
+          <div class="feat-meta">NEPSE HOURS Desk · Today, 4:12 PM · 3 min read</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="news-2col">
+      <div class="news-card"><div class="news-tag">IPO</div><div class="news-title">Kalanga Hydro IPO Oversubscribed 9.80 Times — Allotment Jestha 22</div><div class="news-meta">Today 2:30 PM</div></div>
+      <div class="news-card"><div class="news-tag">Dividend</div><div class="news-title">NABIL Bank Proposes 15% Cash Dividend; BVPS Hits All-Time High Rs. 218</div><div class="news-meta">Today 1:45 PM</div></div>
+      <div class="news-card"><div class="news-tag">NRB Policy</div><div class="news-title">Nepal Rastra Bank Holds Policy Rate at 5.5% — Credit Target 12.5%</div><div class="news-meta">Today 11:00 AM</div></div>
+      <div class="news-card"><div class="news-tag">Hydropower</div><div class="news-title">Upper Tamakoshi Posts Record Q3 Revenue Rs. 1.2B — Full Capacity Confirmed</div><div class="news-meta">Yesterday 5:00 PM</div></div>
+    </div>
+
+    <div class="news-list">
+      <div class="box-pad" style="padding-bottom:0"><div class="sec-head"><span class="sec-title">Latest News</span><span class="sec-more">View All →</span></div></div>
+      <div class="news-list-item"><div class="n-num">01</div><div><div class="n-title">SEBON Issues New Margin Lending Guidelines — LTV Capped at 65% for Volatile Stocks</div><div class="n-meta">Today · SEBON · Regulatory</div></div></div>
+      <div class="news-list-item"><div class="n-num">02</div><div><div class="n-title">Sanima Bank 8.25% Perpetual Non-Cumulative Preference Shares Listed on NEPSE</div><div class="n-meta">Today · New Listing · Commercial Banks</div></div></div>
+      <div class="news-list-item"><div class="n-num">03</div><div><div class="n-title">NMB Hybrid Fund L-II Opens for Subscription — CEO Outlines 12-Year Growth Strategy</div><div class="n-meta">Today · Mutual Fund</div></div></div>
+      <div class="news-list-item"><div class="n-num">04</div><div><div class="n-title">NIBL Stable Fund Launches — 12-Year Maturity Targeting Steady Fixed Income</div><div class="n-meta">Yesterday · Mutual Fund</div></div></div>
+      <div class="news-list-item"><div class="n-num">05</div><div><div class="n-title">CIB Nepal Police Requests SEBON to Freeze Shares of 56 Individuals Under Securities Act</div><div class="n-meta">Yesterday · CIB · Regulatory</div></div></div>
+      <div class="news-list-item"><div class="n-num">06</div><div><div class="n-title">Snow Rivers Limited IPO Allotment: 77,812 Applicants Receive 10 Units via Lottery</div><div class="n-meta">2 days ago · IPO · Allotment</div></div></div>
+      <div class="news-list-item"><div class="n-num">07</div><div><div class="n-title">Prabhu Capital Head Shares SIP Strategy: Start Small, Stay Consistent, Grow Big</div><div class="n-meta">2 days ago · Interview · Investing</div></div></div>
+    </div>
+
+    <!-- LIVE TABLE -->
+    <div class="live-section">
+      <div class="live-head">
+        <div class="live-head-title"><div class="live-dot"></div> Live Trading Data</div>
+        <div class="live-time" id="liveTime">Last update: --</div>
+      </div>
+      <table>
+        <thead><tr>
+          <th>Symbol</th><th>Company</th><th>Sector</th>
+          <th class="r">LTP</th><th class="r">Change</th><th class="r">% Chg</th>
+          <th class="r">Volume</th><th class="r">Turnover</th>
+        </tr></thead>
+        <tbody id="liveTableBody">
+          <tr id="row-NABIL"><td class="sym">NABIL</td><td>NABIL Bank</td><td><span class="stag">Bank</span></td><td class="r" id="p-NABIL">1,240.00</td><td class="cu" id="c-NABIL">+57.00</td><td class="cu" id="pct-NABIL">+4.82%</td><td class="r">48,200</td><td class="r">59.8M</td></tr>
+          <tr id="row-NIMB"><td class="sym">NIMB</td><td>NIC Asia Bank</td><td><span class="stag">Bank</span></td><td class="r" id="p-NIMB">267.00</td><td class="cd" id="c-NIMB">-11.40</td><td class="cd" id="pct-NIMB">-4.10%</td><td class="r">92,100</td><td class="r">24.6M</td></tr>
+          <tr id="row-UPPER"><td class="sym">UPPER</td><td>Upper Tamakoshi</td><td><span class="stag">Hydro</span></td><td class="r" id="p-UPPER">340.00</td><td class="cu" id="c-UPPER">+25.90</td><td class="cu" id="pct-UPPER">+8.24%</td><td class="r">114,400</td><td class="r">38.9M</td></tr>
+          <tr id="row-CHCL"><td class="sym">CHCL</td><td>Chilime Hydro</td><td><span class="stag">Hydro</span></td><td class="r" id="p-CHCL">889.00</td><td class="cu" id="c-CHCL">+54.80</td><td class="cu" id="pct-CHCL">+6.56%</td><td class="r">33,800</td><td class="r">30.1M</td></tr>
+          <tr id="row-SICL"><td class="sym">SICL</td><td>Sagarmatha Ins.</td><td><span class="stag">Insurance</span></td><td class="r" id="p-SICL">520.00</td><td class="cu" id="c-SICL">+19.60</td><td class="cu" id="pct-SICL">+3.92%</td><td class="r">21,600</td><td class="r">11.2M</td></tr>
+          <tr id="row-BNL"><td class="sym">BNL</td><td>Bottlers Nepal</td><td><span class="stag">Mfg.</span></td><td class="r" id="p-BNL">193.00</td><td class="cu" id="c-BNL">+5.30</td><td class="cu" id="pct-BNL">+2.83%</td><td class="r">67,300</td><td class="r">13.0M</td></tr>
+          <tr id="row-AKJCL"><td class="sym">AKJCL</td><td>Arjun Khola</td><td><span class="stag">Hydro</span></td><td class="r" id="p-AKJCL">164.00</td><td class="cu" id="c-AKJCL">+4.90</td><td class="cu" id="pct-AKJCL">+3.08%</td><td class="r">1,635,606</td><td class="r">268.2M</td></tr>
+          <tr id="row-HIDCL"><td class="sym">HIDCL</td><td>Hydroelec. Inv.</td><td><span class="stag">Dev Fund</span></td><td class="r" id="p-HIDCL">196.00</td><td class="cd" id="c-HIDCL">-4.20</td><td class="cd" id="pct-HIDCL">-2.10%</td><td class="r">88,400</td><td class="r">17.3M</td></tr>
+          <tr id="row-GBBL"><td class="sym">GBBL</td><td>Garima Bikas</td><td><span class="stag">Dev Bank</span></td><td class="r" id="p-GBBL">1,642.00</td><td class="cd" id="c-GBBL">-54.20</td><td class="cd" id="pct-GBBL">-3.20%</td><td class="r">9,800</td><td class="r">16.1M</td></tr>
+          <tr id="row-CREST"><td class="sym">CREST</td><td>Crest Finance</td><td><span class="stag">Finance</span></td><td class="r" id="p-CREST">287.00</td><td class="cu" id="c-CREST">+11.50</td><td class="cu" id="pct-CREST">+4.17%</td><td class="r">28,900</td><td class="r">8.3M</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </main>
+
+  <!-- RIGHT -->
+  <aside>
+    <div class="box">
+      <div class="box-pad"><div class="sec-head"><span class="sec-title">IPO Updates</span><span class="sec-more">All →</span></div></div>
+      <div class="ipo-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="ipo-name">Kalanga Hydro Ltd.</div><span class="badge badge-open">Open</span></div>
+        <div class="ipo-meta"><span>12,00,000 units</span><span>Closes Jestha 22</span></div>
+        <div style="margin-top:5px;font-size:11px;color:var(--green);font-weight:600">9.80× Oversubscribed</div>
+      </div>
+      <div class="ipo-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="ipo-name">Everest Colour Ltd.</div><span class="badge badge-upcoming">Upcoming</span></div>
+        <div class="ipo-meta"><span>6,55,700 units</span><span>Opens Jestha 22</span></div>
+      </div>
+      <div class="ipo-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="ipo-name">Snow Rivers Limited</div><span class="badge badge-allotted">Allotted</span></div>
+        <div class="ipo-meta"><span>77,812 applicants</span><span>10 units each</span></div>
+      </div>
+      <div class="ipo-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="ipo-name">NMB Hybrid Fund L-II</div><span class="badge badge-open">Open</span></div>
+        <div class="ipo-meta"><span>Mutual Fund</span><span>12-yr maturity</span></div>
+      </div>
+      <div class="ipo-card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px"><div class="ipo-name">Sanigad Hydro</div><span class="badge badge-upcoming">Revised</span></div>
+        <div class="ipo-meta"><span>Schedule revised</span><span>New date TBA</span></div>
+      </div>
+    </div>
+
+    <div class="box">
+      <div class="box-pad"><div class="sec-head"><span class="sec-title">Announcements</span><span class="sec-more">All →</span></div></div>
+      <div class="ann-row"><div><span class="ann-sym">NABIL</span><span class="atype at-div">Cash Div</span></div><div class="ann-detail">15% cash dividend proposed FY 2082/83</div></div>
+      <div class="ann-row"><div><span class="ann-sym">SANIMA</span><span class="atype at-right">Pref Share</span></div><div class="ann-detail">8.25% perpetual preference share listed</div></div>
+      <div class="ann-row"><div><span class="ann-sym">SUPPORT</span><span class="atype at-bonus">Bonus</span></div><div class="ann-detail">Bonus shares of Support MF listed</div></div>
+      <div class="ann-row"><div><span class="ann-sym">GBIME</span><span class="atype at-bonus">Bonus</span></div><div class="ann-detail">Global IME Laghubitta bonus on NEPSE</div></div>
+      <div class="ann-row"><div><span class="ann-sym">CIT</span><span class="atype at-div">Bonus</span></div><div class="ann-detail">Citizen Investment Trust bonus listed</div></div>
+      <div class="ann-row"><div><span class="ann-sym">GRDBL</span><span class="atype at-bonus">Bonus</span></div><div class="ann-detail">8.04% bonus of Green Dev Bank listed</div></div>
+      <div class="ann-row"><div><span class="ann-sym">UPPER</span><span class="atype at-agm">AGM</span></div><div class="ann-detail">AGM scheduled Ashadh 15, 2083</div></div>
+    </div>
+
+    <div class="box">
+      <div class="box-pad">
+        <div class="sec-head"><span class="sec-title">Quick Tools</span></div>
+        <div class="quick-link" onclick="document.getElementById('calc-section').scrollIntoView({behavior:'smooth'})">💰 Dividend Calculator <span class="quick-link-arr">→</span></div>
+        <div class="quick-link">📊 Live Floorsheet <span class="quick-link-arr">→</span></div>
+        <div class="quick-link">📁 Company Reports <span class="quick-link-arr">→</span></div>
+        <div class="quick-link">💼 Portfolio Tracker <span class="quick-link-arr">→</span></div>
+        <div class="quick-link">📅 Dividend Calendar <span class="quick-link-arr">→</span></div>
+        <div class="quick-link">🔍 Stock Screener <span class="quick-link-arr">→</span></div>
+        
+      </div>
+    </div>
+  </aside>
+</div>
+
+<!-- ════════════════════════════════ -->
+<!-- DIVIDEND CALCULATOR SECTION     -->
+<!-- ════════════════════════════════ -->
+<div id="calc-section" style="max-width:1300px;margin:0 auto;padding:0 1.5rem 2rem">
+  <div class="calc-section-head">
+    <div>
+      <div class="calc-section-title">💰 NEPSE Dividend Calculator</div>
+      <div class="calc-section-sub">Calculate cash dividend, bonus shares, right shares — with Nepal tax deduction</div>
+    </div>
+    <div style="font-size:11px;color:#88aacc">Tax Rate: 5% (Individual) · 10% (Institution)</div>
+  </div>
+  <div class="calc-tabs-bar">
+    <button class="calc-tab active" onclick="switchCalc(this,'cashCalc')">💵 Cash Dividend</button>
+    <button class="calc-tab" onclick="switchCalc(this,'bonusCalc')">📦 Bonus Share</button>
+    <button class="calc-tab" onclick="switchCalc(this,'rightCalc')">🎯 Right Share</button>
+    <button class="calc-tab" onclick="switchCalc(this,'yieldCalc')">📈 Yield Analysis</button>
+  </div>
+
+  <!-- CASH DIVIDEND -->
+  <div class="calc-body active" id="cashCalc">
+    <div class="calc-form">
+      <div class="form-group"><label>Company / Stock Symbol</label><input class="form-input" id="c-symbol" placeholder="e.g. NABIL" style="text-transform:uppercase"></div>
+      <div class="form-group"><label>Number of Shares Held</label><input class="form-input" type="number" id="c-shares" placeholder="e.g. 100" min="1"></div>
+      <div class="form-group"><label>Cash Dividend Rate (%)</label><input class="form-input" type="number" id="c-rate" placeholder="e.g. 15 (means 15%)" min="0" step="0.01"></div>
+      <div class="form-group"><label>Face Value per Share (NPR)</label>
+        <select class="form-select" id="c-face">
+          <option value="100">Rs. 100 (Standard)</option>
+          <option value="50">Rs. 50</option>
+          <option value="25">Rs. 25</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Investor Type</label>
+        <select class="form-select" id="c-investor">
+          <option value="0.05">Individual (5% tax)</option>
+          <option value="0.10">Institution (10% tax)</option>
+          <option value="0">Tax Exempt</option>
+        </select>
+      </div>
+      <button class="calc-btn" onclick="calcCash()">Calculate Dividend →</button>
+    </div>
+    <div class="calc-results" id="cashResults">
+      <div class="calc-results-title">Calculation Results</div>
+      <div style="color:var(--muted);font-size:12px;padding:2rem 0;text-align:center">Fill in details and click Calculate</div>
+    </div>
+  </div>
+
+  <!-- BONUS SHARE -->
+  <div class="calc-body" id="bonusCalc">
+    <div class="calc-form">
+      <div class="form-group"><label>Current Shares Held</label><input class="form-input" type="number" id="b-shares" placeholder="e.g. 500" min="1"></div>
+      <div class="form-group"><label>Bonus Share Rate (%)</label><input class="form-input" type="number" id="b-rate" placeholder="e.g. 10 (means 10%)" min="0" step="0.01"></div>
+      <div class="form-group"><label>Current Market Price (LTP)</label><input class="form-input" type="number" id="b-ltp" placeholder="e.g. 1240" min="1" step="0.01"></div>
+      <div class="form-group"><label>Cost of Purchase (NPR/share)</label><input class="form-input" type="number" id="b-cost" placeholder="e.g. 800" min="1" step="0.01"></div>
+      <button class="calc-btn" onclick="calcBonus()">Calculate Bonus Shares →</button>
+      <div class="calc-note" style="margin-top:1rem">Bonus shares are not taxed immediately. Capital gains tax (7.5% individual) applies only when you sell. Post-bonus, your average cost per share decreases.</div>
+    </div>
+    <div class="calc-results" id="bonusResults">
+      <div class="calc-results-title">Bonus Share Results</div>
+      <div style="color:var(--muted);font-size:12px;padding:2rem 0;text-align:center">Fill in details and click Calculate</div>
+    </div>
+  </div>
+
+  <!-- RIGHT SHARE -->
+  <div class="calc-body" id="rightCalc">
+    <div class="calc-form">
+      <div class="form-group"><label>Current Shares Held</label><input class="form-input" type="number" id="r-shares" placeholder="e.g. 100" min="1"></div>
+      <div class="form-group"><label>Right Share Ratio (%)</label><input class="form-input" type="number" id="r-ratio" placeholder="e.g. 20 (1:5 ratio = 20%)" min="0" step="0.01"></div>
+      <div class="form-group"><label>Right Share Issue Price (NPR)</label><input class="form-input" type="number" id="r-price" placeholder="e.g. 100 (usually face value)" min="1" step="0.01"></div>
+      <div class="form-group"><label>Current Market Price (LTP)</label><input class="form-input" type="number" id="r-ltp" placeholder="e.g. 1240" min="1" step="0.01"></div>
+      <button class="calc-btn" onclick="calcRight()">Calculate Right Share Value →</button>
+    </div>
+    <div class="calc-results" id="rightResults">
+      <div class="calc-results-title">Right Share Results</div>
+      <div style="color:var(--muted);font-size:12px;padding:2rem 0;text-align:center">Fill in details and click Calculate</div>
+    </div>
+  </div>
+
+  <!-- YIELD ANALYSIS -->
+  <div class="calc-body" id="yieldCalc">
+    <div class="calc-form">
+      <div class="form-group"><label>Purchase Price per Share (NPR)</label><input class="form-input" type="number" id="y-buy" placeholder="e.g. 900" min="1" step="0.01"></div>
+      <div class="form-group"><label>Current Market Price (LTP)</label><input class="form-input" type="number" id="y-ltp" placeholder="e.g. 1240" min="1" step="0.01"></div>
+      <div class="form-group"><label>Cash Dividend Rate (%)</label><input class="form-input" type="number" id="y-div" placeholder="e.g. 15" min="0" step="0.01"></div>
+      <div class="form-group"><label>Bonus Share Rate (%)</label><input class="form-input" type="number" id="y-bonus" placeholder="e.g. 10 (enter 0 if none)" min="0" step="0.01"></div>
+      <div class="form-group"><label>Number of Shares</label><input class="form-input" type="number" id="y-shares" placeholder="e.g. 100" min="1"></div>
+      <button class="calc-btn" onclick="calcYield()">Analyze Total Return →</button>
+    </div>
+    <div class="calc-results" id="yieldResults">
+      <div class="calc-results-title">Total Return Analysis</div>
+      <div style="color:var(--muted);font-size:12px;padding:2rem 0;text-align:center">Fill in details and click Calculate</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════ -->
+<!-- HOPE YOUNGTEAM — COMPANY SECTION        -->
+<!-- ════════════════════════════════════════ -->
+<div style="background:#fff;border-top:3px solid #c0392b;border-bottom:3px solid #c0392b;margin-top:2rem">
+  <div style="max-width:1300px;margin:0 auto;padding:2.5rem 1.5rem">
+
+    <!-- Header bar -->
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;margin-bottom:2rem">
+      <div>
+        <div style="font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#c0392b;margin-bottom:6px">Our Company</div>
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.6rem;font-weight:700;color:#0d1b2a;line-height:1.1">Hope YoungTeam</div>
+        <div style="font-size:13px;color:#777;margin-top:4px;letter-spacing:.05em">Medical Equipment Distributor — Nationwide</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:12px">
+        <div style="width:56px;height:56px;background:linear-gradient(135deg,#0d1b2a,#c0392b);display:flex;align-items:center;justify-content:center;font-size:1.6rem">🏥</div>
+        <div>
+          <div style="font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.1em">Est. Nepal</div>
+          <div style="font-size:12px;font-weight:700;color:#0d1b2a">Serving Nationwide</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 4-column info grid -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd9d0;margin-bottom:2rem">
+
+      <div style="background:#f9f8f5;padding:1.4rem">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#777;margin-bottom:8px">Who We Are</div>
+        <div style="font-size:12px;color:#444;line-height:1.8">Nepal's trusted nationwide distributor of certified medical and diagnostic equipment — connecting hospitals, clinics, and healthcare professionals with world-class devices.</div>
+      </div>
+
+      <div style="background:#f9f8f5;padding:1.4rem">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#777;margin-bottom:8px">Product Range</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="font-size:11px;color:#444;padding:5px 8px;background:#fff;border-left:2px solid #c0392b">Diagnostic & Imaging Equipment</div>
+          <div style="font-size:11px;color:#444;padding:5px 8px;background:#fff;border-left:2px solid #0d1b2a">Surgical & ICU Instruments</div>
+          <div style="font-size:11px;color:#444;padding:5px 8px;background:#fff;border-left:2px solid #c0392b">Patient Monitoring Systems</div>
+          <div style="font-size:11px;color:#444;padding:5px 8px;background:#fff;border-left:2px solid #0d1b2a">Rehabilitation & Mobility Aids</div>
+        </div>
+      </div>
+
+      <div style="background:#f9f8f5;padding:1.4rem">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#777;margin-bottom:8px">Coverage</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#444"><span style="color:#1a8c4e;font-weight:700">✓</span> All 7 Provinces</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#444"><span style="color:#1a8c4e;font-weight:700">✓</span> Government & Private Hospitals</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#444"><span style="color:#1a8c4e;font-weight:700">✓</span> Health Posts & PHCCs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#444"><span style="color:#1a8c4e;font-weight:700">✓</span> Private Clinics & Labs</div>
+          <div style="display:flex;align-items:center;gap:8px;font-size:11px;color:#444"><span style="color:#1a8c4e;font-weight:700">✓</span> After-Sales Service & AMC</div>
+        </div>
+      </div>
+
+      <div style="background:#0d1b2a;padding:1.4rem">
+        <div style="font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#88aacc;margin-bottom:8px">Contact Us</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <div style="font-size:11px;color:#ccd">📍 Kathmandu, Nepal</div>
+          <div style="font-size:11px;color:#ccd">📞 +977 — (Available)</div>
+          <div style="font-size:11px;color:#ccd">✉️ hopeyoungteam@gmail.com</div>
+          <div style="font-size:11px;color:#ccd">🌐 hopeyoungteam.com.np</div>
+          <div style="margin-top:8px;padding:8px 12px;background:#c0392b;color:#fff;font-size:11px;font-weight:700;text-align:center;letter-spacing:.08em;text-transform:uppercase;cursor:pointer">Request a Quote →</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Stats bar -->
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:#ddd9d0">
+      <div style="background:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:12px">
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:#c0392b;line-height:1">7</div>
+        <div style="font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;line-height:1.4">Provinces<br>Covered</div>
+      </div>
+      <div style="background:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:12px">
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:#0d1b2a;line-height:1">500+</div>
+        <div style="font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;line-height:1.4">Healthcare<br>Partners</div>
+      </div>
+      <div style="background:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:12px">
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:#c0392b;line-height:1">100+</div>
+        <div style="font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;line-height:1.4">Equipment<br>Categories</div>
+      </div>
+      <div style="background:#fff;padding:1rem 1.4rem;display:flex;align-items:center;gap:12px">
+        <div style="font-family:'Libre Baskerville',serif;font-size:1.8rem;font-weight:700;color:#0d1b2a;line-height:1">24/7</div>
+        <div style="font-size:11px;color:#777;text-transform:uppercase;letter-spacing:.08em;line-height:1.4">After-Sales<br>Support</div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div style="margin-top:1rem;font-size:10px;color:#aaa;text-align:center;letter-spacing:.04em">
+      Hope YoungTeam Medical Equipment Distributor is a registered business entity in Nepal. All medical devices comply with Nepal Department of Drug Administration (DDA) standards.
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand-name">NEPSE HOURS</div>
+        <div class="footer-desc">Nepal's independent financial news portal. Real-time market data, IPO updates, company announcements, dividend calculator, and in-depth market analysis.</div>
+        <div style="margin-top:1rem;font-size:11px;color:#556">
+          📍 Kathmandu, Nepal &nbsp;·&nbsp; Press Council Nepal Reg. Pending<br>
+          ✉️ nepsehours@gmail.com
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Market</div>
+        <div class="footer-links">
+          <a href="#">Live Trading</a><a href="#">Floorsheet</a><a href="#">Indices</a>
+          <a href="#">Top Gainers</a><a href="#">Top Losers</a><a href="#">52W High/Low</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Companies</div>
+        <div class="footer-links">
+          <a href="#">Banks</a><a href="#">Hydropower</a><a href="#">Insurance</a>
+          <a href="#">Microfinance</a><a href="#">Manufacturing</a><a href="#">Mutual Funds</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Tools</div>
+        <div class="footer-links">
+          <a href="#calc-section">Dividend Calculator</a>
+          <a href="#">Portfolio Tracker</a><a href="#">Stock Screener</a>
+          <a href="#">Dividend Calendar</a><a href="#">AGM Schedule</a>
+          
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© 2083 NEPSE HOURS. All rights reserved. Data for informational purposes only. <span>Not SEBON licensed financial advice.</span></div>
+      <div><span>Powered by NEPSE HOURS Intelligence Framework</span></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── LIVE DATA SIMULATION ──
+const liveData = {
+  NABIL:{p:1240,base:1240,trend:1},
+  NIMB:{p:267,base:267,trend:-1},
+  UPPER:{p:340,base:340,trend:1},
+  CHCL:{p:889,base:889,trend:1},
+  SICL:{p:520,base:520,trend:1},
+  BNL:{p:193,base:193,trend:1},
+  AKJCL:{p:164,base:164,trend:1},
+  HIDCL:{p:196,base:196,trend:-1},
+  GBBL:{p:1642,base:1642,trend:-1},
+  CREST:{p:287,base:287,trend:1}
+};
+
+function fmt(n){return n.toLocaleString('en-IN',{minimumFractionDigits:2,maximumFractionDigits:2})}
+
+function updateLive(){
+  const now=new Date();
+  document.getElementById('liveTime').textContent='Last update: '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  Object.keys(liveData).forEach(sym=>{
+    const d=liveData[sym];
+    const noise=(Math.random()-0.48)*d.base*0.003*d.trend;
+    d.p=Math.max(1,d.p+noise);
+    const chg=d.p-d.base;
+    const pct=(chg/d.base)*100;
+    const isUp=chg>=0;
+    const pEl=document.getElementById('p-'+sym);
+    const cEl=document.getElementById('c-'+sym);
+    const pctEl=document.getElementById('pct-'+sym);
+    const row=document.getElementById('row-'+sym);
+    if(pEl){
+      const old=pEl.textContent;
+      const newVal=fmt(d.p);
+      if(old!==newVal){
+        pEl.textContent=newVal;
+        if(row){
+          row.classList.remove('flash-up','flash-down');
+          void row.offsetWidth;
+          row.classList.add(isUp?'flash-up':'flash-down');
+        }
+      }
+    }
+    if(cEl){cEl.textContent=(isUp?'+':'')+fmt(chg);cEl.className=isUp?'cu':'cd'}
+    if(pctEl){pctEl.textContent=(isUp?'+':'')+pct.toFixed(2)+'%';pctEl.className=isUp?'cu':'cd'}
+    // update sidebar
+    const sEl=document.getElementById('g-'+sym)||document.getElementById('l-'+sym);
+    if(sEl)sEl.textContent=fmt(d.p);
+  });
+  // Update NEPSE index
+  const nepseVal=2782.10+(Math.random()-0.49)*2;
+  document.getElementById('heroNepse').textContent=fmt(nepseVal);
+  document.getElementById('h-nepse').textContent=fmt(nepseVal);
+}
+setInterval(updateLive,4000);
+
+// ── CLOCK ──
+function updateClock(){
+  const now=new Date();
+  document.getElementById('topTime').textContent=now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const days=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  document.getElementById('topDate').textContent=days[now.getDay()]+', '+months[now.getMonth()]+' '+now.getDate()+', '+now.getFullYear();
+  const h=now.getHours(),m=now.getMinutes(),d=now.getDay();
+  const open=d>=0&&d<=4&&(h>11||(h===11&&m>=0))&&(h<15||(h===15&&m===0));
+  document.getElementById('statusDot').className='status-dot '+(open?'status-open':'status-closed');
+  document.getElementById('statusText').textContent=open?'Market Open':'Market Closed';
+}
+setInterval(updateClock,1000);updateClock();
+
+// ── TABS ──
+function switchTab(btn,cls,tabId){
+  btn.closest('.box').querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  btn.closest('.box').querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+  btn.classList.add('active',cls);
+  document.getElementById(tabId).classList.add('active');
+}
+
+function switchCalc(btn,bodyId){
+  document.querySelectorAll('.calc-tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.calc-body').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(bodyId).classList.add('active');
+}
+
+// ── MOBILE NAV ──
+function toggleMobile(){
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+// ── SEARCH ──
+const STOCKS=[
+  {sym:'NABIL',name:'NABIL Bank Limited',sector:'Commercial Banks',ltp:'1,240'},
+  {sym:'NIMB',name:'NIC Asia Bank Limited',sector:'Commercial Banks',ltp:'267'},
+  {sym:'UPPER',name:'Upper Tamakoshi Hydropower',sector:'Hydropower',ltp:'340'},
+  {sym:'CHCL',name:'Chilime Hydropower Company',sector:'Hydropower',ltp:'889'},
+  {sym:'SICL',name:'Sagarmatha Insurance',sector:'Insurance',ltp:'520'},
+  {sym:'BNL',name:'Bottlers Nepal Limited',sector:'Manufacturing',ltp:'193'},
+  {sym:'AKJCL',name:'Arjun Khola Jalvidhyut',sector:'Hydropower',ltp:'164'},
+  {sym:'HIDCL',name:'Hydroelectricity Investment',sector:'Dev Fund',ltp:'196'},
+  {sym:'GBBL',name:'Garima Bikas Bank',sector:'Dev Banks',ltp:'1,642'},
+  {sym:'CREST',name:'Crest Finance',sector:'Finance',ltp:'287'},
+  {sym:'PRVU',name:'Prabhu Bank',sector:'Commercial Banks',ltp:'312'},
+  {sym:'GBIME',name:'Global IME Laghubitta',sector:'Microfinance',ltp:'2,140'},
+];
+function openSearch(){document.getElementById('searchModal').classList.add('open');setTimeout(()=>document.getElementById('modalInput').focus(),80)}
+function closeSearch(){document.getElementById('searchModal').classList.remove('open')}
+function filterSearch(q){
+  const r=document.getElementById('modalResults');
+  if(!q){r.innerHTML='';return}
+  const m=STOCKS.filter(s=>s.sym.toLowerCase().includes(q.toLowerCase())||s.name.toLowerCase().includes(q.toLowerCase()));
+  r.innerHTML=m.length?m.map(s=>`<div class="modal-result-item"><div><strong style="font-family:'IBM Plex Mono',monospace;color:var(--navy)">${s.sym}</strong> &nbsp;${s.name}<br><span style="font-size:10px;color:var(--muted)">${s.sector}</span></div><div style="font-family:'IBM Plex Mono',monospace;font-weight:700">Rs.${s.ltp}</div></div>`).join(''):'<div style="padding:1.2rem;font-size:12px;color:var(--muted)">No results for "'+q+'"</div>'
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeSearch()});
+
+// ── DIVIDEND CALCULATORS ──
+function fmtN(n,dec=2){return n.toLocaleString('en-IN',{minimumFractionDigits:dec,maximumFractionDigits:dec})}
+function rRow(label,val,hi=false){
+  return `<div class="result-row${hi?' highlight':''}"><span class="result-label">${label}</span><span class="result-val">Rs. ${val}</span></div>`
+}
+function rRowPct(label,val){return `<div class="result-row"><span class="result-label">${label}</span><span class="result-val">${val}</span></div>`}
+
+function calcCash(){
+  const sym=document.getElementById('c-symbol').value||'Stock';
+  const shares=parseFloat(document.getElementById('c-shares').value)||0;
+  const rate=parseFloat(document.getElementById('c-rate').value)||0;
+  const face=parseFloat(document.getElementById('c-face').value)||100;
+  const tax=parseFloat(document.getElementById('c-investor').value)||0.05;
+  if(!shares||!rate){alert('Please enter shares and dividend rate.');return}
+  const grossPerShare=face*(rate/100);
+  const taxPerShare=grossPerShare*tax;
+  const netPerShare=grossPerShare-taxPerShare;
+  const grossTotal=grossPerShare*shares;
+  const taxTotal=taxPerShare*shares;
+  const netTotal=netPerShare*shares;
+  const taxPct=(tax*100).toFixed(0);
+  document.getElementById('cashResults').innerHTML=`
+    <div class="calc-results-title">${sym.toUpperCase()} — Cash Dividend Result</div>
+    ${rRow('Shares Held',fmtN(shares,0)+' units','').replace('Rs. ','').replace('result-val">Rs.','result-val">')}
+    ${rRow('Dividend Rate',rate+'% on Rs.'+face+' face').replace('result-val">Rs.','result-val">')}
+    ${rRow('Gross Dividend per Share','Rs. '+fmtN(grossPerShare))}
+    ${rRow('TDS ('+taxPct+'% tax) per Share','Rs. '+fmtN(taxPerShare))}
+    ${rRow('Net Dividend per Share','Rs. '+fmtN(netPerShare))}
+    <div style="height:1px;background:var(--border);margin:8px 0"></div>
+    ${rRow('Gross Total Dividend','Rs. '+fmtN(grossTotal))}
+    ${rRow('Total TDS Deducted','Rs. '+fmtN(taxTotal))}
+    <div class="result-row highlight"><span class="result-label">✅ Net Dividend You Receive</span><span class="result-val">Rs. ${fmtN(netTotal)}</span></div>
+    <div class="calc-note" style="margin-top:1rem">TDS is deducted at source by the company. You receive the net amount directly to your bank. Dividend income is taxed at flat ${taxPct}% in Nepal.</div>
+  `;
+}
+
+function calcBonus(){
+  const shares=parseFloat(document.getElementById('b-shares').value)||0;
+  const rate=parseFloat(document.getElementById('b-rate').value)||0;
+  const ltp=parseFloat(document.getElementById('b-ltp').value)||0;
+  const cost=parseFloat(document.getElementById('b-cost').value)||0;
+  if(!shares||!rate){alert('Please enter shares and bonus rate.');return}
+  const bonusShares=Math.floor(shares*(rate/100));
+  const totalShares=shares+bonusShares;
+  const totalInvestment=shares*cost;
+  const newAvgCost=cost?(totalInvestment/totalShares):0;
+  const theoreticalPost=ltp?((shares*ltp)/(totalShares)):0;
+  const portfolioValue=totalShares*ltp;
+  document.getElementById('bonusResults').innerHTML=`
+    <div class="calc-results-title">Bonus Share Result</div>
+    <div class="result-row"><span class="result-label">Current Shares</span><span class="result-val" style="color:var(--navy)">${fmtN(shares,0)} units</span></div>
+    <div class="result-row"><span class="result-label">Bonus Rate</span><span class="result-val" style="color:var(--navy)">${rate}%</span></div>
+    <div class="result-row highlight"><span class="result-label">🎁 Bonus Shares Received</span><span class="result-val">${fmtN(bonusShares,0)} units</span></div>
+    <div class="result-row"><span class="result-label">Total Shares After Bonus</span><span class="result-val" style="color:var(--navy)">${fmtN(totalShares,0)} units</span></div>
+    ${cost?`<div class="result-row"><span class="result-label">Original Avg Cost/Share</span><span class="result-val">Rs. ${fmtN(cost)}</span></div>
+    <div class="result-row highlight"><span class="result-label">📉 New Avg Cost/Share</span><span class="result-val">Rs. ${fmtN(newAvgCost)}</span></div>`:''}
+    ${ltp?`<div class="result-row"><span class="result-label">Theoretical Post-Bonus Price</span><span class="result-val">Rs. ${fmtN(theoreticalPost)}</span></div>
+    <div class="result-row"><span class="result-label">Portfolio Value at LTP</span><span class="result-val">Rs. ${fmtN(portfolioValue)}</span></div>`:''}
+    <div class="calc-note" style="margin-top:1rem">No tax on bonus share receipt. 7.5% capital gains tax applies when you sell. Your average cost decreases, improving your break-even point.</div>
+  `;
+}
+
+function calcRight(){
+  const shares=parseFloat(document.getElementById('r-shares').value)||0;
+  const ratio=parseFloat(document.getElementById('r-ratio').value)||0;
+  const price=parseFloat(document.getElementById('r-price').value)||100;
+  const ltp=parseFloat(document.getElementById('r-ltp').value)||0;
+  if(!shares||!ratio){alert('Please enter shares and right ratio.');return}
+  const rightShares=Math.floor(shares*(ratio/100));
+  const totalCost=rightShares*price;
+  const theoreticalVal=ltp?((shares*ltp+rightShares*price)/(shares+rightShares)):0;
+  const premium=ltp?((ltp-price)/price*100):0;
+  document.getElementById('rightResults').innerHTML=`
+    <div class="calc-results-title">Right Share Result</div>
+    <div class="result-row"><span class="result-label">Current Shares</span><span class="result-val" style="color:var(--navy)">${fmtN(shares,0)} units</span></div>
+    <div class="result-row highlight"><span class="result-label">🎯 Right Shares Entitled</span><span class="result-val">${fmtN(rightShares,0)} units</span></div>
+    <div class="result-row"><span class="result-label">Issue Price per Share</span><span class="result-val">Rs. ${fmtN(price)}</span></div>
+    <div class="result-row highlight"><span class="result-label">💳 Total Amount to Pay</span><span class="result-val">Rs. ${fmtN(totalCost)}</span></div>
+    ${ltp?`<div class="result-row"><span class="result-label">Current Market Price (LTP)</span><span class="result-val">Rs. ${fmtN(ltp)}</span></div>
+    <div class="result-row"><span class="result-label">Premium Over Issue Price</span><span class="result-val" style="color:var(--green)">+${fmtN(premium)}%</span></div>
+    <div class="result-row"><span class="result-label">Theoretical Ex-Right Price</span><span class="result-val">Rs. ${fmtN(theoreticalVal)}</span></div>`:''}
+    <div class="calc-note" style="margin-top:1rem">Right shares must be applied for within the announced period through CDSC/Mero Share. You can also renounce (sell) your right to other investors if you don't want to pay.</div>
+  `;
+}
+
+function calcYield(){
+  const buy=parseFloat(document.getElementById('y-buy').value)||0;
+  const ltp=parseFloat(document.getElementById('y-ltp').value)||0;
+  const div=parseFloat(document.getElementById('y-div').value)||0;
+  const bonus=parseFloat(document.getElementById('y-bonus').value)||0;
+  const shares=parseFloat(document.getElementById('y-shares').value)||0;
+  if(!buy||!shares){alert('Please enter purchase price and shares.');return}
+  const cashDivPerShare=100*(div/100);
+  const taxedDiv=cashDivPerShare*0.95;
+  const totalCashDiv=taxedDiv*shares;
+  const bonusShares=Math.floor(shares*(bonus/100));
+  const capitalGain=ltp?((ltp-buy)*shares):0;
+  const capitalGainPct=((ltp-buy)/buy*100);
+  const divYield=(taxedDiv/buy*100);
+  const totalReturn=capitalGain+totalCashDiv;
+  const totalReturnPct=(totalReturn/(buy*shares)*100);
+  document.getElementById('yieldResults').innerHTML=`
+    <div class="calc-results-title">Total Return Analysis</div>
+    <div class="result-row"><span class="result-label">Investment (${fmtN(shares,0)} shares @ Rs.${fmtN(buy)})</span><span class="result-val">Rs. ${fmtN(buy*shares)}</span></div>
+    <div class="result-row"><span class="result-label">Current Value @ LTP ${ltp?'Rs.'+fmtN(ltp):'-'}</span><span class="result-val" style="color:${capitalGain>=0?'var(--green)':'var(--red)'}">Rs. ${ltp?fmtN(ltp*shares):'-'}</span></div>
+    <div class="result-row"><span class="result-label">Capital Gain/Loss</span><span class="result-val" style="color:${capitalGain>=0?'var(--green)':'var(--red)'}">${capitalGain>=0?'+':''}Rs. ${fmtN(capitalGain)} (${capitalGainPct.toFixed(2)}%)</span></div>
+    <div style="height:1px;background:var(--border);margin:6px 0"></div>
+    ${div?`<div class="result-row"><span class="result-label">Net Cash Dividend (after 5% tax)</span><span class="result-val">Rs. ${fmtN(totalCashDiv)}</span></div>
+    <div class="result-row"><span class="result-label">Dividend Yield on Cost</span><span class="result-val" style="color:var(--blue)">${divYield.toFixed(2)}%</span></div>`:''}
+    ${bonus?`<div class="result-row"><span class="result-label">Bonus Shares Received</span><span class="result-val" style="color:var(--orange)">${fmtN(bonusShares,0)} units</span></div>`:''}
+    <div class="result-row highlight"><span class="result-label">📈 Total Return (Cash + Capital)</span><span class="result-val">${totalReturn>=0?'+':''}Rs. ${fmtN(totalReturn)}</span></div>
+    <div class="result-row highlight"><span class="result-label">📊 Total Return %</span><span class="result-val">${totalReturnPct.toFixed(2)}%</span></div>
+  `;
+}
+
+// Active nav on scroll
+window.addEventListener('scroll',()=>{
+  const sections=['calc-section'];
+  sections.forEach(id=>{
+    const el=document.getElementById(id);
+    if(!el)return;
+    const rect=el.getBoundingClientRect();
+    if(rect.top<=100&&rect.bottom>100){
+      document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('active'));
+      document.querySelector(`.nav-link[href="#${id}"]`)?.classList.add('active');
+    }
+  });
+});
+</script>
+</body>
+</html>
